@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char filename[100];
+    char text[1000];
+    char pattern[100];
+    char choice;
+
+    do {
+        FILE *fp;
+        int count = 0;
+
+        printf("Enter filename: ");
+        scanf("%s", filename);
+
+        fp = fopen(filename, "r");
+        if (fp == NULL) {
+            printf("File not found.\n");
+            return 0;
+        }
+
+        fscanf(fp, "%s", text);
+        fclose(fp);
+
+        printf("TEXT\n%s\n", text);
+
+        printf("Enter PATTERN: ");
+        scanf("%s", pattern);
+
+        int n = strlen(text);
+        int m = strlen(pattern);
+
+        for (int i = 0; i <= n - m; i++) {
+            int j;
+            for (j = 0; j < m; j++) {
+                if (text[i + j] != pattern[j])
+                    break;
+            }
+            if (j == m)
+                count++;
+        }
+
+        if (count > 0)
+            printf("Total number of matches: %d\n", count);
+        else
+            printf("No matches found!\n");
+
+        printf("Again (y/n): ");
+        scanf(" %c", &choice);
+
+    } while (choice == 'y' || choice == 'Y');
+
+    return 0;
+}
